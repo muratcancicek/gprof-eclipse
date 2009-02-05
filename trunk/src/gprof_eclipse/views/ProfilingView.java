@@ -1,184 +1,191 @@
-package gprof_eclipse.views;
-
-
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.SWT;
-
-
-/**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+/*
+ * =======================================
+ * ============ gprof-eclipse ============
+ * =======================================
+ * 
+ * File: ProfilingView.java
+ * 
+ * ---------------------------------------
+ * 
+ * Last changed:
+ * $Revision$
+ * $Author$
+ * $Date$
  */
 
-public class ProfilingView extends ViewPart {
-	private TableViewer viewer;
-	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
+package gprof_eclipse.views;
 
-	/*
-	 * The content provider class is responsible for
-	 * providing objects to the view. It can wrap
-	 * existing objects in adapters or simply return
-	 * objects as-is. These objects may be sensitive
-	 * to the current input of the view, or ignore
-	 * it and always show the same content 
-	 * (like Task List, for example).
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+
+import profiled.*;
+
+/**
+ * Displays the profiler results.
+ */
+
+public class ProfilingView extends ViewPart
+{
+	/** Holds the profiler's report. */
+	private ProfilerReport report;
+	
+	/** Holds the actual graphical view. */
+	private TableViewer viewer;
+	
+	/** Holds the "Run With Profiling" action. */
+	private Action runWithProfiling;
+	
+	/**
+	 * Provides the profiler report to the view in a displayable format.
+	 * 
+	 * @author chrisculy
 	 */
-	 
-	class ViewContentProvider implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+	class ViewContentProvider implements IStructuredContentProvider
+	{
+		public void inputChanged(Viewer v, Object oldInput, Object newInput)
+		{
+			/* stub function */
 		}
-		public void dispose() {
+		
+		public void dispose()
+		{
+			/* stub function */
 		}
-		public Object[] getElements(Object parent) {
+		
+		public Object[] getElements(Object parent)
+		{
 			return new String[] { "One", "Two", "Three" };
 		}
 	}
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
+	
+	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider
+	{
+		public String getColumnText(Object obj, int index)
+		{
+			return this.getText(obj);
 		}
-		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
+		
+		public Image getColumnImage(Object obj, int index)
+		{
+			return this.getImage(obj);
 		}
-		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+		
+		public Image getImage(Object obj)
+		{
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		}
 	}
-	class NameSorter extends ViewerSorter {
-	}
-
+	
 	/**
-	 * The constructor.
+	 * Constructor.
 	 */
-	public ProfilingView() {
+	public ProfilingView()
+	{
+		/* stub function */
 	}
-
+	
 	/**
-	 * This is a callback that will allow us
-	 * to create the viewer and initialize it.
+	 * Create the viewer.
 	 */
-	public void createPartControl(Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
-
+	public void createPartControl(Composite parent)
+	{
+		this.viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		this.viewer.setContentProvider(new ViewContentProvider());
+		this.viewer.setLabelProvider(new ViewLabelProvider());
+		this.viewer.setInput(this.getViewSite());
+		
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "gprof_eclipse.viewer");
-		makeActions();
-		hookContextMenu();
-		hookDoubleClickAction();
-		contributeToActionBars();
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.viewer.getControl(), "gprof_eclipse.viewer");
+		this.makeActions();
+		this.hookContextMenu();
+		this.contributeToActionBars();
 	}
-
-	private void hookContextMenu() {
+	
+	private void hookContextMenu()
+	{
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
+		menuMgr.addMenuListener(new IMenuListener()
+		{
+			public void menuAboutToShow(IMenuManager manager)
+			{
 				ProfilingView.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
+		Menu menu = menuMgr.createContextMenu(this.viewer.getControl());
+		this.viewer.getControl().setMenu(menu);
+		this.getSite().registerContextMenu(menuMgr, this.viewer);
 	}
-
-	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
+	
+	private void contributeToActionBars()
+	{
+		IActionBars bars = this.getViewSite().getActionBars();
+		this.fillLocalPullDown(bars.getMenuManager());
+		this.fillLocalToolBar(bars.getToolBarManager());
 	}
-
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
+	
+	private void fillLocalPullDown(IMenuManager manager)
+	{
+		manager.add(this.runWithProfiling);
 	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		// Other plug-ins can contribute there actions here
+	
+	private void fillContextMenu(IMenuManager manager)
+	{
+		manager.add(this.runWithProfiling);
+		// Other plug-ins can contribute there actions here.
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 	
-	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+	private void fillLocalToolBar(IToolBarManager manager)
+	{
+		manager.add(this.runWithProfiling);
 	}
-
-	private void makeActions() {
-		action1 = new Action() {
-			public void run() {
-				showMessage("Action 1 executed");
+	
+	private void makeActions()
+	{
+		this.runWithProfiling = new Action()
+		{
+			public void run()
+			{
+				ProfilingView.this.showMessage("Running profiler...");
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
-			}
-		};
+		this.runWithProfiling.setText("Run With Profiling");
+		this.runWithProfiling.setToolTipText("Runs the current project with profiling and displays a report when finished.");
+		this.runWithProfiling.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(
+			ISharedImages.IMG_OBJS_INFO_TSK));
 	}
-
-	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
+	
+	private void showMessage(String message)
+	{
+		MessageDialog.openInformation(this.viewer.getControl().getShell(), "Profiler Results", message);
 	}
-	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Profiler Results",
-			message);
-	}
-
+	
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
-	public void setFocus() {
-		viewer.getControl().setFocus();
+	public void setFocus()
+	{
+		this.viewer.getControl().setFocus();
 	}
 }
