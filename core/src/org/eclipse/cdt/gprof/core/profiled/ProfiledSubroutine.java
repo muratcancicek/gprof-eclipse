@@ -13,7 +13,7 @@
  * $Date$
  */
 
-package profiled;
+package org.eclipse.cdt.gprof.core.profiled;
 
 /**
  * Represents a subroutine of a function.

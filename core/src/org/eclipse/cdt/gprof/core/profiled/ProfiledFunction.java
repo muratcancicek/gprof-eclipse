@@ -13,7 +13,7 @@
  * $Date$
  */
 
-package profiled;
+package org.eclipse.cdt.gprof.core.profiled;
 
 import java.util.ArrayList;
 

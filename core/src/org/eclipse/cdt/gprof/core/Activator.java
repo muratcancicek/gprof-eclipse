@@ -1,4 +1,4 @@
-package gprof_eclipse;
+package org.eclipse.cdt.gprof.core;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

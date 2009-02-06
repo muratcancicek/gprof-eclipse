@@ -13,7 +13,7 @@
  * $Date$
  */
 
-package gprof_eclipse.actions;
+package org.eclipse.cdt.gprof.core.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
