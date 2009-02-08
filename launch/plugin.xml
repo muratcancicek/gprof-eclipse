@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+    <extension
+          point="org.eclipse.debug.core.launchConfigurationTypes">
+       <launchConfigurationType
+             delegate="org.eclipse.cdt.gprof.launch.GProfLaunchConfigurationDelegate"
+             id="org.eclipse.cdt.gprof.launch.GProfLaunchID"
+             modes="profile"
+             name="Profile (gprof)"
+             public="true">
+       </launchConfigurationType>
+    </extension>
+    <extension
+          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+       <launchConfigurationTypeImage
+             configTypeID="org.eclipse.cdt.gprof.launch.GProfLaunchID"
+             icon="icons/profile.png"
+             id="org.eclipse.cdt.gprof.launch.launchConfigurationTypeImage1">
+       </launchConfigurationTypeImage>
+    </extension>
+</plugin>
