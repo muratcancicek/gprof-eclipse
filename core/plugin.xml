@@ -6,20 +6,20 @@
          point="org.eclipse.ui.views">
       <category
             name="Profiling"
-            id="gprof_eclipse">
+            id="GProf-Eclipse View">
       </category>
       <view
             name="Profiler Results"
-            icon="icons/sample.gif"
-            category="gprof_eclipse"
-            class="gprof_eclipse.views.ProfilingView"
-            id="gprof_eclipse.views.ProfilingView">
+            icon="icons/profile.png"
+            category="org.eclipse.cdt.gprof.core.views.ProfilingView"
+            class="org.eclipse.cdt.gprof.core.views.ProfilingView"
+            id="ProfilingView">
       </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.eclipse.jdt.ui.JavaPerspective">
+            targetID="org.eclipse.cdt.ui.CPerspective">
          <view
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
@@ -37,24 +37,17 @@
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            id="gprof_eclipse.actionSet"
+            id="actionSet"
             label="Run with Profiling"
             visible="true">
-         <menu
-               id="sampleMenu"
-               label="Sample &amp;Menu">
-            <separator
-                  name="sampleGroup">
-            </separator>
-         </menu>
          <action
-               class="gprof_eclipse.actions.ProfileAction"
-               icon="icons/sample.gif"
+               class="org.eclipse.cdt.gprof.core.actions.ProfileAction"
+               icon="icons/profile.png"
                id="gprof_eclipse.actions.ProfileAction"
-               label="&amp;Sample Action"
+               label="Run with Profiling"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
-               tooltip="Hello, Eclipse world">
+               tooltip="Run with Profiling">
          </action>
       </actionSet>
    </extension>

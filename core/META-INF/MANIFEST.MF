@@ -1,10 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Gprof_eclipse Plug-in
-Bundle-SymbolicName: gprof_eclipse; singleton:=true
+Bundle-Name: GProf-Eclipse Core
+Bundle-SymbolicName: org.eclipse.cdt.gprof.core;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.eclipse.cdt.gprof.core.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.cdt.gprof.launch;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Chris Culy

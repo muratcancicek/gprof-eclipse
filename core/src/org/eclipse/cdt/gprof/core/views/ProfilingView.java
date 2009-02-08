@@ -28,7 +28,6 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -115,7 +114,7 @@ public class ProfilingView extends ViewPart
 		this.viewer.setInput(this.getViewSite());
 		
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.viewer.getControl(), "gprof_eclipse.viewer");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.viewer.getControl(), "org.eclipse.cdt.gprof.core.viewer");
 		this.makeActions();
 		this.hookContextMenu();
 		this.contributeToActionBars();
