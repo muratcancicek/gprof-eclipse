@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GProf-Eclipse Launch
+Bundle-SymbolicName: org.eclipse.cdt.gprof.launch;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.cdt.gprof.launch.Activator
+Bundle-Vendor: Chris Culy
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.debug.core;bundle-version="3.4.0",
+ org.eclipse.debug.ui;bundle-version="3.4.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
