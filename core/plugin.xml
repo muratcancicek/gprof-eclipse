@@ -11,7 +11,7 @@
       <view
             name="Profiler Results"
             icon="icons/profile.png"
-            category="org.eclipse.cdt.gprof.core.views.ProfilingView"
+            category="GProf-Eclipse View"
             class="org.eclipse.cdt.gprof.core.views.ProfilingView"
             id="ProfilingView">
       </view>
@@ -24,7 +24,7 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
                relationship="right"
-               id="gprof_eclipse.views.ProfilingView">
+               id="ProfilingView">
          </view>
       </perspectiveExtension>
    </extension>
@@ -35,21 +35,13 @@
       </contexts>
    </extension>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="actionSet"
-            label="Run with Profiling"
-            visible="true">
-         <action
-               class="org.eclipse.cdt.gprof.core.actions.ProfileAction"
-               icon="icons/profile.png"
-               id="gprof_eclipse.actions.ProfileAction"
-               label="Run with Profiling"
-               menubarPath="sampleMenu/sampleGroup"
-               toolbarPath="sampleGroup"
-               tooltip="Run with Profiling">
-         </action>
-      </actionSet>
+         point="org.eclipse.cdt.gprof.launch">
+      <class
+            class="org.eclipse.cdt.gprof.core.GProfLaunchParser">
+      </class>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
    </extension>
 
 </plugin>
