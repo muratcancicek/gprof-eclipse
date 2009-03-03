@@ -1,11 +1,24 @@
 /*
- * =======================================
- * ============ gprof-eclipse ============
- * =======================================
+ * =======================================================================
+ * ============================ gprof-eclipse ============================
+ * =======================================================================
+ * 
  * 
  * File: ProfilingView.java
  * 
- * ---------------------------------------
+ * 
+ * -----------------------------------------------------------------------
+ * Copyright (c) 2009 Chris Culy and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * + Chris Culy - initial API and implementation
+ * -----------------------------------------------------------------------
+ * 
  * 
  * Last changed:
  * $Revision$
@@ -15,14 +28,7 @@
 
 package org.eclipse.cdt.gprof.core.views;
 
-import org.eclipse.cdt.gprof.core.profiled.*;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.cdt.gprof.core.profiled.ProfilerReport;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -31,10 +37,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
@@ -50,9 +53,6 @@ public class ProfilingView extends ViewPart
 	
 	/** Holds the actual graphical view. */
 	private TableViewer viewer;
-	
-	/** Holds the "Run With Profiling" action. */
-	private Action runWithProfiling;
 	
 	/**
 	 * Provides the profiler report to the view in a displayable format.
@@ -104,6 +104,16 @@ public class ProfilingView extends ViewPart
 	}
 	
 	/**
+	 * Retrieves the profiler report object.
+	 * 
+	 * @return The profiler report.
+	 */
+	ProfilerReport getProfilerReport()
+	{
+	    return this.report;
+	}
+	
+	/**
 	 * Create the viewer.
 	 */
 	public void createPartControl(Composite parent)
@@ -115,69 +125,6 @@ public class ProfilingView extends ViewPart
 		
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.viewer.getControl(), "org.eclipse.cdt.gprof.core.viewer");
-		this.makeActions();
-		this.hookContextMenu();
-		this.contributeToActionBars();
-	}
-	
-	private void hookContextMenu()
-	{
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener()
-		{
-			public void menuAboutToShow(IMenuManager manager)
-			{
-				ProfilingView.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(this.viewer.getControl());
-		this.viewer.getControl().setMenu(menu);
-		this.getSite().registerContextMenu(menuMgr, this.viewer);
-	}
-	
-	private void contributeToActionBars()
-	{
-		IActionBars bars = this.getViewSite().getActionBars();
-		this.fillLocalPullDown(bars.getMenuManager());
-		this.fillLocalToolBar(bars.getToolBarManager());
-	}
-	
-	private void fillLocalPullDown(IMenuManager manager)
-	{
-		manager.add(this.runWithProfiling);
-	}
-	
-	private void fillContextMenu(IMenuManager manager)
-	{
-		manager.add(this.runWithProfiling);
-		// Other plug-ins can contribute there actions here.
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-	
-	private void fillLocalToolBar(IToolBarManager manager)
-	{
-		manager.add(this.runWithProfiling);
-	}
-	
-	private void makeActions()
-	{
-		this.runWithProfiling = new Action()
-		{
-			public void run()
-			{
-				ProfilingView.this.showMessage("Running profiler...");
-			}
-		};
-		this.runWithProfiling.setText("Run With Profiling");
-		this.runWithProfiling.setToolTipText("Runs the current project with profiling and displays a report when finished.");
-		this.runWithProfiling.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(
-			ISharedImages.IMG_OBJS_INFO_TSK));
-	}
-	
-	private void showMessage(String message)
-	{
-		MessageDialog.openInformation(this.viewer.getControl().getShell(), "Profiler Results", message);
 	}
 	
 	/**

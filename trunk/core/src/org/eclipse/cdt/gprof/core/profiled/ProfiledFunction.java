@@ -1,11 +1,24 @@
 /*
- * =======================================
- * ============ gprof-eclipse ============
- * =======================================
+ * =======================================================================
+ * ============================ gprof-eclipse ============================
+ * =======================================================================
+ * 
  * 
  * File: ProfiledFunction.java
  * 
- * ---------------------------------------
+ * 
+ * -----------------------------------------------------------------------
+ * Copyright (c) 2009 Chris Culy and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * + Chris Culy - initial API and implementation
+ * -----------------------------------------------------------------------
+ * 
  * 
  * Last changed:
  * $Revision$
@@ -22,29 +35,31 @@ import java.util.ArrayList;
  * 
  * @author chrisculy
  */
-class ProfiledFunction
+public class ProfiledFunction
 {
-	// ---- Profiled Function Statistics Constants ---- //
+	// =============== Profiled Function Statistics Constants ============== //
 	
-	private static final int STAT_PERCENT_TOTAL_TIME_INDEX = 0;
+    private static final int STAT_PERCENT_TOTAL_SELF_TIME_INDEX = 0;
+    
+	private static final int STAT_PERCENT_TOTAL_TIME_INDEX = 1;
 	
-	private static final int STAT_SELF_TIME_INDEX = 1;
+	private static final int STAT_SELF_TIME_INDEX = 2;
 	
-	private static final int STAT_SUBROUTINE_TIME_INDEX = 2;
+	private static final int STAT_SUBROUTINE_TIME_INDEX = 3;
 	
-	private static final int STAT_TOTAL_TIME_INDEX = 3;
+	private static final int STAT_TOTAL_TIME_INDEX = 4;
 	
-	private static final int STAT_CALL_COUNT_INDEX = 4;
+	private static final int STAT_CALL_COUNT_INDEX = 5;
 	
-	private static final int STAT_RECURSIVE_CALL_COUNT_INDEX = 5;
+	private static final int STAT_RECURSIVE_CALL_COUNT_INDEX = 6;
 	
-	private static final int STAT_SELF_MS_PER_CALL_INDEX = 6;
+	private static final int STAT_SELF_MS_PER_CALL_INDEX = 7;
 	
-	private static final int STAT_TOTAL_MS_PER_CALL_INDEX = 7;
+	private static final int STAT_TOTAL_MS_PER_CALL_INDEX = 8;
 	
-	private static final int STAT_COUNT = 8;
+	private static final int STAT_COUNT = 9;
 	
-	// ---- Profiled Function Statistics Constants ---- //
+	// =============== Profiled Function Statistics Constants ============== //
 	
 	/** Holds the ID of the function. */
 	private int id;
@@ -66,7 +81,16 @@ class ProfiledFunction
 	 */
 	public ProfiledFunction()
 	{
-		/* stub function */
+		// Set all variables to invalid "flag" variables.
+	    // This object should be parsed into, not initialized properly by default.
+	    this.id = -1;
+	    this.name = null;
+	    for (int i = 0; i < this.stats.length; i++)
+        {
+	        this.stats[i] = -1f;
+        }
+	    this.callers = null;
+	    this.subroutines = null;
 	}
 	
 	/**
@@ -90,9 +114,19 @@ class ProfiledFunction
 	}
 	
 	/**
-	 * Retrieves the percent of total program time that was spent in the profiled function.
+     * Retrieves the percent of total program time that was spent in the profiled function itself.
+     * 
+     * @return The percent of total time spent in the profiled function itself.
+     */
+    public float GetPercentTotalSelfTime()
+    {
+        return this.stats[STAT_PERCENT_TOTAL_SELF_TIME_INDEX];
+    }
+	
+	/**
+	 * Retrieves the percent of total program time that was spent in the profiled function and its subroutines.
 	 * 
-	 * @return The percent of total time spent in the profiled function.
+	 * @return The percent of total time spent in the profiled function and its subroutines.
 	 */
 	public float GetPercentTotalTime()
 	{
@@ -134,9 +168,9 @@ class ProfiledFunction
 	 * 
 	 * @return The number of times the profiled function was called.
 	 */
-	public float GetCallCount()
+	public int GetCallCount()
 	{
-		return this.stats[STAT_CALL_COUNT_INDEX];
+		return (int)this.stats[STAT_CALL_COUNT_INDEX];
 	}
 	
 	/**
@@ -144,9 +178,9 @@ class ProfiledFunction
 	 * 
 	 * @return The number of times the profiled function was called recursively.
 	 */
-	public float GetRecursiveCallCount()
+	public int GetRecursiveCallCount()
 	{
-		return this.stats[STAT_RECURSIVE_CALL_COUNT_INDEX];
+		return (int)this.stats[STAT_RECURSIVE_CALL_COUNT_INDEX];
 	}
 	
 	/**
@@ -210,9 +244,19 @@ class ProfiledFunction
 	}
 	
 	/**
-	 * Sets the percent of total program time that was spent in the profiled function.
+     * Sets the percent of total program time that was spent in the profiled function itself.
+     * 
+     * @param percentTotalSelfTime The percent of total time spent in the profiled function itself.
+     */
+    public void SetPercentTotalSelfTime(float percentTotalSelfTime)
+    {
+        this.stats[STAT_PERCENT_TOTAL_SELF_TIME_INDEX] = percentTotalSelfTime;
+    }
+	
+	/**
+	 * Sets the percent of total program time that was spent in the profiled function and all its subroutines.
 	 * 
-	 * @param percentTotalTime The percent of total time spent in the profiled function.
+	 * @param percentTotalTime The percent of total time spent in the profiled function and all its subroutines.
 	 */
 	public void SetPercentTotalTime(float percentTotalTime)
 	{
@@ -264,9 +308,9 @@ class ProfiledFunction
 	 * 
 	 * @param recursiveCallCount The number of times the profiled function was called recursively.
 	 */
-	public void SetRecursiveCallCount(float recursiveCallCount)
+	public void SetRecursiveCallCount(int recursiveCallCount)
 	{
-		this.stats[STAT_RECURSIVE_CALL_COUNT_INDEX] = recursiveCallCount;
+		this.stats[STAT_RECURSIVE_CALL_COUNT_INDEX] = (float)recursiveCallCount;
 	}
 	
 	/**

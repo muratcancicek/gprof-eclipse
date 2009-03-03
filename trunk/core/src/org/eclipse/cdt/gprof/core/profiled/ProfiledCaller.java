@@ -1,11 +1,24 @@
 /*
- * =======================================
- * ============ gprof-eclipse ============
- * =======================================
+ * =======================================================================
+ * ============================ gprof-eclipse ============================
+ * =======================================================================
+ * 
  * 
  * File: ProfiledCaller.java
  * 
- * ---------------------------------------
+ * 
+ * -----------------------------------------------------------------------
+ * Copyright (c) 2009 Chris Culy and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * + Chris Culy - initial API and implementation
+ * -----------------------------------------------------------------------
+ * 
  * 
  * Last changed:
  * $Revision$
@@ -22,10 +35,13 @@ package org.eclipse.cdt.gprof.core.profiled;
  * 
  * @author chrisculy
  */
-class ProfiledCaller
+public class ProfiledCaller
 {
 	/** Holds the ID of the caller. */
 	private int id;
+	
+	/** Holds the name of the caller. */
+	private String name;
 	
 	/** Holds the number of times the caller called the given function. */
 	private int callCount;
@@ -41,7 +57,13 @@ class ProfiledCaller
 	 */
 	public ProfiledCaller()
 	{
-		/* stub function */
+	    // Set all variables to invalid "flag" variables.
+        // This object should be parsed into, not initialized properly by default.
+        this.id = -1;
+        this.name = null;
+        this.callCount = -1;
+        this.timeInCalledSelf = -1f;
+        this.timeInCalledSubroutines = -1f;
 	}
 	
 	/**
@@ -53,6 +75,16 @@ class ProfiledCaller
 	{
 		return this.id;
 	}
+	
+	/**
+     * Retrieves the profiled caller's name.
+     * 
+     * @return The name.
+     */
+    public String GetName()
+    {
+        return this.name;
+    }
 	
 	/**
 	 * Retrieves the number of times the caller called the given function.
@@ -93,6 +125,16 @@ class ProfiledCaller
 	{
 		this.id = id;
 	}
+	
+	/**
+     * Sets the profiled caller's name.
+     * 
+     * @param name The name.
+     */
+    public void SetName(String name)
+    {
+        this.name = name;
+    }
 	
 	/**
 	 * Sets the number of times the caller called the given function.

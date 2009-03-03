@@ -1,11 +1,24 @@
 /*
- * =======================================
- * ============ gprof-eclipse ============
- * =======================================
+ * =======================================================================
+ * ============================ gprof-eclipse ============================
+ * =======================================================================
  * 
- * File: ProfiledReport.java
  * 
- * ---------------------------------------
+ * File: ProfilerReport.java
+ * 
+ * 
+ * -----------------------------------------------------------------------
+ * Copyright (c) 2009 Chris Culy and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * + Chris Culy - initial API and implementation
+ * -----------------------------------------------------------------------
+ * 
  * 
  * Last changed:
  * $Revision$

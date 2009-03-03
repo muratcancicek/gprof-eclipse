@@ -1,11 +1,24 @@
 /*
- * =======================================
- * ============ gprof-eclipse ============
- * =======================================
+ * =======================================================================
+ * ============================ gprof-eclipse ============================
+ * =======================================================================
+ * 
  * 
  * File: ProfiledSubroutine.java
  * 
- * ---------------------------------------
+ * 
+ * -----------------------------------------------------------------------
+ * Copyright (c) 2009 Chris Culy and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * + Chris Culy - initial API and implementation
+ * -----------------------------------------------------------------------
+ * 
  * 
  * Last changed:
  * $Revision$
@@ -23,10 +36,13 @@ package org.eclipse.cdt.gprof.core.profiled;
  * @author chrisculy
  * 
  */
-class ProfiledSubroutine
+public class ProfiledSubroutine
 {
-	/** Holds the ID of the caller. */
+	/** Holds the ID of the subroutine. */
 	private int id;
+	
+	/** Holds the name of the subroutine. */
+    private String name;
 	
 	/**
 	 * Holds the number of times the subroutine was called by the given function.
@@ -48,7 +64,13 @@ class ProfiledSubroutine
 	 */
 	public ProfiledSubroutine()
 	{
-		/* stub function */
+	    // Set all variables to invalid "flag" variables.
+        // This object should be parsed into, not initialized properly by default.
+        this.id = -1;
+        this.name = null;
+        this.callCount = -1;
+        this.timeInSubroutineSelf = -1f;
+        this.timeInSubroutineSubroutines = -1f;
 	}
 	
 	/**
@@ -60,6 +82,16 @@ class ProfiledSubroutine
 	{
 		return this.id;
 	}
+	
+	/**
+     * Retrieves the profiled subroutine's name.
+     * 
+     * @return The name.
+     */
+    public String GetName()
+    {
+        return this.name;
+    }
 	
 	/**
 	 * Retrieves the number of times the subroutine was called by the given function.
@@ -100,6 +132,16 @@ class ProfiledSubroutine
 	{
 		this.id = id;
 	}
+	
+	/**
+     * Sets the profiled subroutine's name.
+     * 
+     * @param name The name.
+     */
+    public void SetName(String name)
+    {
+        this.name = name;
+    }
 	
 	/**
 	 * Sets the number of times the subroutine was called by the given function.
