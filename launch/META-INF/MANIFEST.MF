@@ -3,10 +3,22 @@ Bundle-ManifestVersion: 2
 Bundle-Name: GProf-Eclipse Launch
 Bundle-SymbolicName: org.eclipse.cdt.gprof.launch;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: org.eclipse.cdt.gprof.launch.Activator
+Bundle-Activator: org.eclipse.cdt.gprof.launch.GProfLaunchPlugin
 Bundle-Vendor: Chris Culy
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.debug.core;bundle-version="3.4.0",
- org.eclipse.debug.ui;bundle-version="3.4.1"
+Require-Bundle: org.eclipse.debug.core;bundle-version="3.4.0",
+ org.eclipse.debug.ui;bundle-version="3.4.1",
+ org.eclipse.swt,
+ org.eclipse.ui;bundle-version="3.4.1",
+ org.eclipse.cdt.launch;bundle-version="5.0.2",
+ org.eclipse.cdt.debug.core;bundle-version="5.0.2",
+ org.eclipse.jdt.core;bundle-version="3.4.2",
+ org.eclipse.cdt.core;bundle-version="5.0.2",
+ org.eclipse.core.runtime;bundle-version="3.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.swt,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.layout,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.console
+Export-Package: org.eclipse.cdt.gprof.launch
