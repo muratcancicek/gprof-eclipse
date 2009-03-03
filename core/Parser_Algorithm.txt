@@ -1,15 +1,0 @@
-->"Flat", "profile:"
-	-Get lines and split by whitespace until we receive the line "time", "seconds", "seconds", "calls", "ms/call", "ms/call", "name"
-	
-	Loop until we read a  character (hasNextFloat() should return false for the beginning of the line)
-		->Read in 3 floats, 1 int, 2 floats, and one String
-			-->> Construct the corresponding ProfiledFunction object.
-
-->"Call", "graph"
-	-Get lines and split by whitespace until we receive the line "index", "%", "time", "self", "children", "called", "name"
-	Loop until we read a  character
-		-For each function (until we read a line that starts with "----") read one line and split by whitespace
-		-If we get 5 tokens, then process it as follows:
-			-If we haven't processed the current function, treat it as a ProfiledCaller.
-			-If we've processed the current function, treat it as a ProfiledSubroutine.
-		-If we get 7 tokens, then process it as the current function.
