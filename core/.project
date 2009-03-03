@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>gprof-eclipse</name>
+	<name>org.eclipse.cdt.gprof.core</name>
 	<comment></comment>
 	<projects>
 	</projects>
